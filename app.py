@@ -18,17 +18,17 @@ st.set_page_config(page_title="Enterprise SDR Prospecting Agent", page_icon="�
 # PRODUCT CONFIGURATION — change this block to target any product
 # ══════════════════════════════════════════════════════════════════════════════
 DEFAULT_PRODUCT = {
-    "name": "Notion",
-    "tagline": "All-in-one connected workspace",
-    "value_prop": "Replaces Confluence + Jira + Google Docs + Asana with one workspace. AI agents automate workflows, answer questions across the workspace, and connect to existing tools.",
-    "pricing": "$18/user/month (Business), custom Enterprise pricing",
-    "differentiator": "AI agents that handle entire workflows autonomously — the 2025-2026 platform differentiator",
-    "competitors": "Confluence, Jira, Asana, Monday.com, ClickUp, Google Docs, SharePoint",
-    "icp_employees_min": 500,
-    "icp_employees_max": 3000,
-    "icp_revenue_min": "$50M",
-    "icp_revenue_max": "$500M",
-    "segment": "Mid-Market",
+    "name": "Your Product",
+    "tagline": "Describe your product in one line",
+    "value_prop": "Describe the core value proposition and what it replaces or improves",
+    "pricing": "e.g. $X/user/month, custom Enterprise pricing",
+    "differentiator": "What sets this product apart from competitors",
+    "competitors": "e.g. Competitor A, Competitor B, Competitor C",
+    "icp_employees_min": 1000,
+    "icp_employees_max": 10000,
+    "icp_revenue_min": "$100M",
+    "icp_revenue_max": "$2B",
+    "segment": "Enterprise",
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -253,7 +253,7 @@ def find_contacts(provider, api_key, product, company_data, research_data, perso
 
     prompt = f"""Company: {company}
 Tech Stack: {json.dumps(stack)}
-Tier: {research_data.get('tier', research_data.get('notion_tier', 'Unknown'))}
+Tier: {research_data.get('tier', 'Unknown')}
 Vertical: {company_data.get('vertical', 'Unknown')}
 Employees: {company_data.get('employee_count', 'Unknown')}
 
@@ -279,7 +279,7 @@ def generate_pitch(provider, api_key, product, company_data, research_data, cont
     prompt = f"""Company: {company_data.get('company', '')}
 Stack: {json.dumps(research_data.get('current_stack', {}))}
 Fragmentation: {research_data.get('stack_fragmentation', 'Unknown')}
-Tier: {research_data.get('tier', research_data.get('notion_tier', 'Unknown'))}
+Tier: {research_data.get('tier', 'Unknown')}
 Entry Point: {research_data.get('entry_point', 'Unknown')}
 
 Contact: {contact.get('name', 'Unknown')} — {contact.get('title', '')} ({contact.get('persona', '')})
@@ -583,7 +583,7 @@ with tab2:
             tier_filter = st.multiselect("Filter by Tier", ["Tier 1","Tier 2","Tier 3","Skip"],
                                          default=["Tier 1","Tier 2","Tier 3"], key="t2_tf")
 
-            tiers = [v.get("tier", v.get("notion_tier","")) for v in research.values()]
+            tiers = [v.get("tier", "") for v in research.values()]
             m1,m2,m3,m4 = st.columns(4)
             m1.metric("🟢 Tier 1", tiers.count("Tier 1"))
             m2.metric("🟡 Tier 2", tiers.count("Tier 2"))
@@ -600,8 +600,8 @@ with tab2:
                     "Communication": stack.get("communication","") if isinstance(stack, dict) else "",
                     "Fragmentation": r.get("stack_fragmentation",""),
                     "Growth Signal": r.get("growth_signal",""),
-                    "Adoption Signal": r.get("product_adoption_signal", r.get("notion_adoption_signal","")),
-                    "Tier": r.get("tier", r.get("notion_tier","")),
+                    "Adoption Signal": r.get("product_adoption_signal", ""),
+                    "Tier": r.get("tier", ""),
                     "Entry Point": r.get("entry_point",""),
                     "Rationale": r.get("tier_rationale",""),
                 })
@@ -650,7 +650,7 @@ with tab3:
 
         st.subheader("Select Companies")
         researched_names = list(research.keys())
-        tier_map = {n: research[n].get("tier", research[n].get("notion_tier","")) for n in researched_names}
+        tier_map = {n: research[n].get("tier", "") for n in researched_names}
         c_opts = [f"{n}  ({tier_map.get(n,'')})" for n in researched_names]
         sel_c = st.multiselect("Choose companies", c_opts, default=c_opts[:3], key="c_sel")
         sel_c_names = [o.rsplit("  (", 1)[0] for o in sel_c]
