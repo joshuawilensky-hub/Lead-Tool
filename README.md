@@ -2,7 +2,7 @@
 
 AI-powered pipeline builder with a four-step workflow: **Find → Research → Contacts → Pitch**
 
-Configurable for any SaaS product. Ships with Notion defaults but can target any product via the sidebar config panel.
+Configurable for any SaaS product. Set your product name, value prop, competitors, and ICP via the sidebar config panel.
 
 ## What It Does
 
@@ -36,4 +36,3 @@ The sidebar expander lets you reconfigure the target product on the fly — prod
 ## Built By
 
 Josh Wilensky — [LinkedIn](https://www.linkedin.com/in/joshwilensky/)
-# Lead-Tool
